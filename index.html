@@ -74,6 +74,61 @@ details[open] summary:after {transform: rotate(180deg);}
 
 .content p {margin-bottom: 10px; line-height: 1.4;}
 
+/*
+ * Hero section styles. This section sits below the main header and introduces
+ * the speaker with their name and several motivational quotations. The
+ * decorative image adds visual interest while keeping the layout clean.
+ */
+.hero {
+  background: #f8f8f8;
+  padding: 40px 20px;
+  border-bottom: 2px solid #333;
+  text-align: center;
+}
+.hero-content h2 {
+  margin-top: 0;
+  font-size: 28px;
+  color: #333;
+}
+.hero .motivational {
+  font-style: italic;
+  margin: 5px 0;
+  color: #555;
+}
+.hero-image img {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+/* Countdown timer container styles. This panel floats at the right side of the page
+   and displays a live countdown to the user's Goethe B2 exam date (27‑08‑2025).
+   It remains visible as the user scrolls the page. */
+#countdown-container {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: #ffffff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 250px;
+  z-index: 1000;
+}
+#countdown-container h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+#countdown {
+  font-size: 16px;
+  font-weight: bold;
+  color: #d9534f;
+}
+
 </style>
 </head>
 <body>
@@ -85,18 +140,29 @@ details[open] summary:after {transform: rotate(180deg);}
   <button id="saveButton" onclick="saveFile()" style="display:none; padding: 8px 16px; font-size: 14px;">Speichern</button>
   <span id="editNotice" style="margin-left: 20px; font-style: italic;"></span>
 </div>
-<<header>
-  <h1>Themenübersicht – Goethe B2 Sprechen (Teil 1)</h1>
-  <h2 style="margin-top:10px;">طبيب محمد رضا الشهاوى</h2>
-  <p style="margin-top:5px; line-height:1.4;">
-    "Der Weg zum Erfolg beginnt mit einem Schritt"<br/>
-    "Gib niemals auf – der nächste Versuch könnte der Durchbruch sein"<br/>
-    "كلَّ يوم فرصة جديدة لتحقيق أحلامك"<br/>
-    “ولَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىِ”<br/>
-    “فَإِنَّ مَعَ العُسْرِ يُسْرًا”
-  </p>
-  <img src="https://picsum.photos/800/200" alt="Motivationsbild" style="width:100%;max-width:800px;border-radius:8px;margin-top:10px;" />
-</header>
+<header><h1>Themenübersicht – Goethe B2 Sprechen (Teil 1)</h1></header>
+
+    <!-- Hero section introduces the presenter and provides motivational quotes and verses. -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2>طبيب محمد رضا الشهاوى</h2>
+        <p class="motivational">"Der Weg zum Erfolg beginnt mit einem Schritt"</p>
+        <p class="motivational">"Gib niemals auf – der nächste Versuch könnte der Durchbruch sein"</p>
+        <p class="motivational">«كُلّ يومٍ فرصةٌ جديدةٌ لتحقيقِ الأمَل»</p>
+        <p class="motivational">“ولَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ”</p>
+        <p class="motivational">“فَإِنَّ مَعَ العُسْرِ يُسْرًا”</p>
+        <p class="motivational">„Man reist nicht, um anzukommen, sondern um zu reisen.“ – Johann W. von Goethe</p>
+        <p class="motivational">„Auch aus Steinen, die einem in den Weg gelegt werden, kann man Schönes bauen.“ – Johann W. von Goethe</p>
+      </div>
+      <div class="hero-image">
+        <img src="https://picsum.photos/800/300?random=3" alt="Dekoratives Bild"/>
+      </div>
+    </section>
+    <!-- Fixed countdown timer panel -->
+    <div id="countdown-container">
+      <h3>Countdown bis zur B2 Prüfung</h3>
+      <p id="countdown"></p>
+    </div>
 <div class="container">
 <h2 class="category-title">Reisen &amp; Kultur</h2>
 <details class="topic-card cat-Reisen-&amp;-Kultur-card">
@@ -935,4 +1001,25 @@ function saveFile() {
   URL.revokeObjectURL(url);
 }
 </script>
+    <script>
+    // Countdown timer to the Goethe B2 exam (27‑08‑2025)
+    function updateCountdown() {
+      // Target date in Cairo time (UTC+02:00). Adjust if daylight savings changes.
+      const targetDate = new Date('2025-08-27T00:00:00+02:00');
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        document.getElementById('countdown').textContent = 'Die Prüfung ist vorbei!';
+        clearInterval(countdownInterval);
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      document.getElementById('countdown').textContent = days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+    }
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+    </script>
 </body></html>
